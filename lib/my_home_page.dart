@@ -6,14 +6,18 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(title: const Text('Test')),
       body: const _HomeBody(),
-      floatingActionButton: FloatingActionButton.small(onPressed: (){
-        //Move to add page
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const AddDataPage()),);
-
-      }),
+      floatingActionButton: FloatingActionButton.small(
+          child: const Icon(Icons.add),
+          onPressed: () {
+            //Move to add page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AddDataPage()),
+            );
+          }),
     );
   }
 }
@@ -23,8 +27,6 @@ class _HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-
-    );
+    return Container();
   }
 }
