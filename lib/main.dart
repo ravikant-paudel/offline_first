@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:offline_first/database/database.dart';
 import 'package:offline_first/my_home_page.dart';
 
+import 'locator.dart';
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Locator.init();
+  locator.offlineDbase.init();
   runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,7 +23,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      home: MyHomePage(),
     );
   }
 }

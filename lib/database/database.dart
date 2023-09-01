@@ -29,6 +29,7 @@ class OfflineDatabase {
   late DatabaseFactory _dbFactory;
   late String _dbPath;
 
+
   Future<void> init([String databaseName = dbName]) async {
     setLogging(enabled: true); // TODO:: Make use of FlavorConfig.instance.showDatabaseLog
     _dbFactory = kIsWeb ? w.databaseFactoryWeb : getDatabaseFactorySqflite(sqflite.databaseFactory);
@@ -37,6 +38,7 @@ class OfflineDatabase {
 
     _dbPath = kIsWeb ? databaseName : join(await PathUtil().getDatabaseStorageDirPath(), databaseName);
     _database = await _openDatabase();
+    print('Init successful');
   }
 
   void setLogging({required bool enabled}) {

@@ -10,14 +10,13 @@ class AddDataPage extends StatefulWidget {
 }
 
 class _AddDataPageState extends State<AddDataPage> {
-  final OfflineDatabase offDb = OfflineDatabase();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   String _name = '';
   int _age = 0;
   bool _isValid = true;
 
-  void _submitForm() {
+  void _submitForm() async {
     setState(() {
       _name = _nameController.text;
       _age = int.tryParse(_ageController.text) ?? 0;
@@ -26,6 +25,9 @@ class _AddDataPageState extends State<AddDataPage> {
 
     if (_isValid) {
       final offlineModel = OfflineModel(name: _name, age: _age);
+
+      final OfflineDatabase offDb = OfflineDatabase();
+      await offDb.init();
       final offlineDb = offDb.openStore<OfflineModel>();
 
       //now insert data
@@ -35,7 +37,6 @@ class _AddDataPageState extends State<AddDataPage> {
 
   @override
   Widget build(BuildContext context) {
-    offDb.init();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Input Page'),
