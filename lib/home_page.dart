@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:offline_first/data/database.dart';
 import 'package:offline_first/utils/dialog_box.dart';
 import 'package:offline_first/utils/task_tile.dart';
 
@@ -10,7 +12,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List offlineList = ["Ravikant", "Bikash", "Ashim", "Biplab", "Ishwor"];
+  final _myOfflineBox = Hive.box('my_offline_box');
+  TaskDataBase db = TaskDataBase();
+
+  @override
+  void initState() {
+    // is Initial
+    if (_myOfflineBox.get("TASK_LIST") == null) {
+      db.createInitialData();
+    } else {
+      //data exist
+      db.loadData();
+    }
+    super.initState();
+  }
 
   final _controller = TextEditingController();
 
@@ -26,10 +41,10 @@ class _HomePageState extends State<HomePage> {
         child: const Icon(Icons.add),
       ),
       body: ListView.builder(
-        itemCount: offlineList.length,
+        itemCount: db.offlineList.length,
         itemBuilder: (context, index) {
           return TaskTile(
-            taskName: offlineList[index],
+            taskName: db.offlineList[index],
             deleteFunction: (context) => deleteTask(index),
           );
         },
@@ -54,16 +69,18 @@ class _HomePageState extends State<HomePage> {
 
   void onDataSave() {
     setState(() {
-      offlineList.add(_controller.text);
+      db.offlineList.add(_controller.text);
       _controller.clear();
     });
     Navigator.of(context).pop();
+    db.updateDataBase();
   }
 
   //To delete task
   void deleteTask(int index) {
     setState(() {
-      offlineList.removeAt(index);
+      db.offlineList.removeAt(index);
     });
+    db.updateDataBase();
   }
 }
