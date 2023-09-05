@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:offline_first/database/database.dart';
-import 'package:offline_first/my_home_page.dart';
+import 'package:offline_first/home_page.dart';
 
-import 'locator.dart';
-
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Locator.init();
-  locator.offlineDbase.init();
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -18,13 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Offline Flutter',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        primarySwatch: Colors.green,
         useMaterial3: true,
       ),
-      home: MyHomePage(),
+      home: const HomePage(),
     );
   }
 }
-
