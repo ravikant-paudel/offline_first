@@ -1,6 +1,8 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:offline_first/data/database.dart';
+import 'package:offline_first/utils/connectivity_plus.dart';
 import 'package:offline_first/utils/dialog_box.dart';
 import 'package:offline_first/utils/task_tile.dart';
 
@@ -14,6 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _myOfflineBox = Hive.box('my_offline_box');
   TaskDataBase db = TaskDataBase();
+  final ConnectivityService _connectivityService = ConnectivityService();
 
   @override
   void initState() {
@@ -25,6 +28,17 @@ class _HomePageState extends State<HomePage> {
       db.loadData();
     }
     super.initState();
+
+    // Subscribe to connectivity changes
+    _connectivityService.connectivityStream.listen((result) {
+      if (result == ConnectivityResult.none) {
+        print('Connection -- NONE');
+        // Handle no internet connection
+      } else {
+        print('PRESENT NOT NULL $result');
+        // Handle internet connection
+      }
+    });
   }
 
   final _controller = TextEditingController();
