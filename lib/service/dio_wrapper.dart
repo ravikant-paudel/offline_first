@@ -31,9 +31,9 @@ class DioWrapper {
   DioWrapper({String? baseUrl, Dio? dio}) {
     _baseUrl = baseUrl;
 
-    final timeout = Duration(minutes: 1);
+    const timeout = Duration(minutes: 1);
     final baseOptions = BaseOptions(
-      baseUrl: _baseUrl ?? '',
+      baseUrl: _baseUrl ?? 'http://192.168.52.26:8000/api/',
       receiveTimeout: timeout,
       connectTimeout: timeout,
       validateStatus: (status) => status != null && status >= 200 && status < 300,

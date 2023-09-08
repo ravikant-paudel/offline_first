@@ -6,8 +6,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //initial hive
   await Hive.initFlutter();
-  // Open a box
-  var box = await Hive.openBox('my_offline_box');
+  // // Open a box
+  // var box = await Hive.openBox('my_offline_box');
+
 
   runApp(const MyApp());
 }

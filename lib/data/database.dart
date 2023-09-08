@@ -1,6 +1,59 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-class TaskDataBase {
+class GenericDatabase<T> {
+  final String _boxName;
+  late Box<T> _box;
+
+  GenericDatabase(this._boxName);
+
+  Future<void> openBox() async {
+    _box = await Hive.openBox<T>(_boxName);
+  }
+
+  // Create initial data if it doesn't exist
+  void createInitialData(List<T> initialData) {
+    if (_box.isEmpty) {
+      _box.addAll(initialData);
+    }
+  }
+
+  // Load data from the local database
+  List<T> loadData() {
+    return _box.values.toList();
+  }
+
+  // Update the local database with a list of items of type T
+  void updateDataBase(List<T> items) {
+    _box.clear(); // Clear the existing data in the box
+    _box.addAll(items); // Add the updated list of items to the box
+  }
+
+  // Add a single item of type T to the local database
+  void addItem(T item) {
+    _box.add(item);
+  }
+
+  // Clear all items of type T from the database
+  void clear() {
+    _box.clear();
+  }
+
+  // Delete an item at a specific index
+  void deleteItem(int index) {
+    _box.deleteAt(index);
+  }
+
+  // Close the Hive box when it's no longer needed
+  Future<void> closeBox() async {
+    await _box.close();
+  }
+}
+
+
+
+
+
+/*class TaskDataBase {
   List offlineList = [];
 
   // reference our box
@@ -23,7 +76,7 @@ class TaskDataBase {
   void updateDataBase() {
     _myBox.put("TASK_LIST", offlineList);
   }
-}
+}*/
 
 
 
